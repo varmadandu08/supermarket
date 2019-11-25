@@ -1,6 +1,7 @@
 package kata.supermarket;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -17,13 +18,13 @@ class BasketTest {
     @DisplayName("basket provides its items correctly when containing...")
     @MethodSource
     @ParameterizedTest(name = "{0}")
-    void basketProvidesTotalValue(String description, int numberOfItems, Iterable<Item> items) {
+    void basketProvidesCorrectItems(String description, int numberOfItems, Iterable<Item> items) {
         final Basket basket = new Basket();
         items.forEach(basket::add);
         assertEquals(numberOfItems, basket.items().size());
     }
 
-    static Stream<Arguments> basketProvidesTotalValue() {
+    static Stream<Arguments> basketProvidesCorrectItems() {
         return Stream.of(
                 noItems(),
                 aSingleItemPricedPerUnit(),
@@ -33,8 +34,26 @@ class BasketTest {
         );
     }
 
-    private static Arguments aSingleItemPricedByWeight() {
-        return Arguments.of("a single weighed item", 1, Collections.singleton(twoFiftyGramsOfAmericanSweets()));
+    @DisplayName("basket provides count of products correctly when containing...")
+    @Test
+    void basketProvidesCorrectItemsCount() {
+        final Basket basket = new Basket();
+
+
+        WeighedProduct sweets = aKiloOfAmericanSweets();
+        basket.add(sweets.weighing(new BigDecimal(".25")));
+        basket.add(sweets.weighing(new BigDecimal(".50")));
+        basket.add(sweets.weighing(new BigDecimal("1.00")));
+
+        WeighedProduct pickAndMix = aKiloOfPickAndMix();
+        basket.add(pickAndMix.weighing(new BigDecimal(".50")));
+
+        assertEquals(1l, basket.itemsCount().get(pickAndMix).get());
+        assertEquals(3l, basket.itemsCount().get(sweets).get());
+    }
+
+        private static Arguments aSingleItemPricedByWeight() {
+            return Arguments.of("a single weighed item", 1, Collections.singleton(twoFiftyGramsOfAmericanSweets()));
     }
 
     private static Arguments multipleItemsPricedByWeight() {
@@ -43,8 +62,19 @@ class BasketTest {
         );
     }
 
+    private static Arguments multipleItemsPricedByWeightWithCount() {
+        return Arguments.of("multiple weighed items", 1,
+                Arrays.asList(twoFiftyGramsOfAmericanSweets(), twoHundredGramsOfPickAndMix())
+        );
+    }
+
     private static Arguments multipleItemsPricedPerUnit() {
         return Arguments.of("multiple items priced per unit", 2,
+                Arrays.asList(aPackOfDigestives(), aPintOfMilk()));
+    }
+
+    private static Arguments multipleItemsPricedPerUnitWithCount() {
+        return Arguments.of("multiple items priced per unit", 1,
                 Arrays.asList(aPackOfDigestives(), aPintOfMilk()));
     }
 
