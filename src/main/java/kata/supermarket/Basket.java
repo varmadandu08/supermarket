@@ -1,13 +1,11 @@
 package kata.supermarket;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Basket {
     private final List<Item> items;
-    private final Map<BaseProduct, AtomicInteger> itemsCount;
+    private final Map<BaseProduct, AtomicLong> itemsCount;
 
     public Basket() {
         this.items = new ArrayList<>();
@@ -16,15 +14,15 @@ public class Basket {
 
     public void add(final Item item) {
         items.add(item);
-        itemsCount.putIfAbsent(item.product(), new AtomicInteger(0));
-        itemsCount.get(item).incrementAndGet();
+        itemsCount.putIfAbsent(item.product(), new AtomicLong(0l));
+        itemsCount.get(item.product()).incrementAndGet();
     }
 
     public List<Item> items() {
         return Collections.unmodifiableList(items);
     }
 
-    public Map<BaseProduct, AtomicInteger> itemsCount() {
+    public Map<BaseProduct, AtomicLong> itemsCount() {
         return itemsCount;
     }
 }
