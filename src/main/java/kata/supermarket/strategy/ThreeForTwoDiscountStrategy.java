@@ -13,7 +13,7 @@ public class ThreeForTwoDiscountStrategy implements DiscountStrategy {
     public BigDecimal execute(Map<DiscountedItem, AtomicLong> allDiscountedProducts) {
         BigDecimal threeForTwoDiscountAmount = BigDecimal.ZERO;
 
-        Map<DiscountedItem, AtomicLong> threeForTwoDiscountedProducts = getThreeForTwoDiscountedProducts(allDiscountedProducts);
+        Map<DiscountedItem, AtomicLong> threeForTwoDiscountedProducts = getProductsHavingDiscountType(allDiscountedProducts, DiscountedType.THREE_FOR_TWO);
 
         for(DiscountedItem discountedItem: threeForTwoDiscountedProducts.keySet()) {
             BigDecimal productFullPricePerUnit = discountedItem.price();
@@ -25,9 +25,4 @@ public class ThreeForTwoDiscountStrategy implements DiscountStrategy {
         return threeForTwoDiscountAmount;
     }
 
-    private Map<DiscountedItem, AtomicLong> getThreeForTwoDiscountedProducts(Map<DiscountedItem, AtomicLong> allDiscountedProducts) {
-        return allDiscountedProducts.entrySet().stream()
-                .filter(entry -> DiscountedType.THREE_FOR_TWO == entry.getKey().getDiscountType())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
 }

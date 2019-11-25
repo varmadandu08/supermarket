@@ -14,7 +14,7 @@ public class TwoForOneDiscountStrategy implements DiscountStrategy {
     public BigDecimal execute(Map<DiscountedItem, AtomicLong> allDiscountedProducts) {
         BigDecimal twoForOneDiscountAmount = BigDecimal.ZERO;
 
-        Map<DiscountedItem, AtomicLong> twoForOneDiscountedProducts = getTwoOneDiscountedProducts(allDiscountedProducts);
+        Map<DiscountedItem, AtomicLong> twoForOneDiscountedProducts = getProductsHavingDiscountType(allDiscountedProducts, DiscountedType.TWO_FOR_ONE);
 
         for(DiscountedItem discountedItem: twoForOneDiscountedProducts.keySet()) {
             BigDecimal productFullPricePerUnit = discountedItem.price();
@@ -26,9 +26,5 @@ public class TwoForOneDiscountStrategy implements DiscountStrategy {
         return twoForOneDiscountAmount;
     }
 
-    private Map<DiscountedItem, AtomicLong> getTwoOneDiscountedProducts(Map<DiscountedItem, AtomicLong> allDiscountedProducts) {
-        return allDiscountedProducts.entrySet().stream()
-                .filter(entry -> DiscountedType.TWO_FOR_ONE == entry.getKey().getDiscountType())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
+
 }
