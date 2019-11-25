@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class ThreeForTwoDiscountStrategy implements DiscountStrategy {
     @Override
-    public BigDecimal execute(Map<DiscountedItem, AtomicLong> products) {
+    public BigDecimal execute(Map<DiscountedItem, AtomicLong> allDiscountedProducts) {
         return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
     }
 }

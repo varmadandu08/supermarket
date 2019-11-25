@@ -26,5 +26,5 @@ public abstract class DiscountedItem implements Item {
         return true;
     }
 
-    abstract DiscountedType getDiscountType();
+    public abstract DiscountedType getDiscountType();
 }
