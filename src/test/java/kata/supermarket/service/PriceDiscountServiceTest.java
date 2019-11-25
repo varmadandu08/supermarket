@@ -1,6 +1,7 @@
 package kata.supermarket.service;
 
 import kata.supermarket.*;
+import kata.supermarket.discount.ThreeForTwoDiscountedItemByUnit;
 import kata.supermarket.discount.TwoForOneDiscountedItemByUnit;
 import kata.supermarket.service.impl.PriceDiscountServiceImpl;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +36,10 @@ class PriceDiscountServiceTest {
                 multipleItemsPricedByWeight(),
                 aSingleItemPricedPerUnit_With_TwoForOneDiscount(),
                 multipleItemsPricedPerUnit_With_2_individual_TwoForOneDiscount(),
-                multipleItemsPricedPerUnit_With_2_pairs_of_TwoForOneDiscount()
+                multipleItemsPricedPerUnit_With_2_pairs_of_TwoForOneDiscount(),
+                aSingleItemPricedPerUnit_With_ThreeForTwoDiscount(),
+                multipleItemsPricedPerUnit_having_3_same_products_with_ThreeForTwoDiscount(),
+                multipleItemsPricedPerUnit_having_4_same_products_with_ThreeForTwoDiscount()
         );
     }
 
@@ -59,6 +63,21 @@ class PriceDiscountServiceTest {
                 Arrays.asList(new TwoForOneDiscountedItemByUnit(aPackOfDigestivesProduct()), new TwoForOneDiscountedItemByUnit(aPintOfMilkProduct())));
     }
 
+    private static Arguments multipleItemsPricedPerUnit_having_3_same_products_with_ThreeForTwoDiscount() {
+        return Arguments.of("multiple items priced per unit", "1.00",
+                Arrays.asList(new ThreeForTwoDiscountedItemByUnit(aPackOfDigestivesProduct())
+                        , new ThreeForTwoDiscountedItemByUnit(aPintOfMilkProduct())
+                        , new ThreeForTwoDiscountedItemByUnit(aPintOfMilkProduct())));
+    }
+
+    private static Arguments multipleItemsPricedPerUnit_having_4_same_products_with_ThreeForTwoDiscount() {
+        return Arguments.of("multiple items priced per unit", "1.00",
+                Arrays.asList(new ThreeForTwoDiscountedItemByUnit(aPackOfDigestivesProduct())
+                        , new ThreeForTwoDiscountedItemByUnit(aPintOfMilkProduct())
+                        , new ThreeForTwoDiscountedItemByUnit(aPintOfMilkProduct())
+                        , new ThreeForTwoDiscountedItemByUnit(aPintOfMilkProduct())));
+    }
+
     private static Arguments multipleItemsPricedPerUnit_With_2_pairs_of_TwoForOneDiscount() {
         return Arguments.of("multiple items priced per unit", "3.00",
                 Arrays.asList(new TwoForOneDiscountedItemByUnit(aPackOfDigestivesProduct()), new TwoForOneDiscountedItemByUnit(aPackOfDigestivesProduct())
@@ -71,6 +90,10 @@ class PriceDiscountServiceTest {
 
     private static Arguments aSingleItemPricedPerUnit_With_TwoForOneDiscount() {
         return Arguments.of("a single item priced per unit with 2 for 1 discount", "0.00", Collections.singleton(new TwoForOneDiscountedItemByUnit(aPintOfMilkProduct())));
+    }
+
+    private static Arguments aSingleItemPricedPerUnit_With_ThreeForTwoDiscount() {
+        return Arguments.of("a single item priced per unit with 2 for 1 discount", "0.00", Collections.singleton(new ThreeForTwoDiscountedItemByUnit(aPintOfMilkProduct())));
     }
 
     private static Arguments noItems() {

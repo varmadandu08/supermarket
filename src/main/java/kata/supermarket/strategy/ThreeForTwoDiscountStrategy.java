@@ -1,15 +1,33 @@
 package kata.supermarket.strategy;
 
 import kata.supermarket.discount.DiscountedItem;
+import kata.supermarket.discount.DiscountedType;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 public class ThreeForTwoDiscountStrategy implements DiscountStrategy {
     @Override
     public BigDecimal execute(Map<DiscountedItem, AtomicLong> allDiscountedProducts) {
-        return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+        BigDecimal threeForTwoDiscountAmount = BigDecimal.ZERO;
+
+        Map<DiscountedItem, AtomicLong> threeForTwoDiscountedProducts = getThreeForTwoDiscountedProducts(allDiscountedProducts);
+
+        for(DiscountedItem discountedItem: threeForTwoDiscountedProducts.keySet()) {
+            BigDecimal productFullPricePerUnit = discountedItem.price();
+            long productQuantity = threeForTwoDiscountedProducts.get(discountedItem).get();
+            long factor = productQuantity / DiscountedType.THREE_FOR_TWO.getMinQty();
+            BigDecimal itemDiscount = productFullPricePerUnit.multiply(BigDecimal.valueOf(factor));
+            threeForTwoDiscountAmount = threeForTwoDiscountAmount.add(itemDiscount);
+        }
+        return threeForTwoDiscountAmount;
+    }
+
+    private Map<DiscountedItem, AtomicLong> getThreeForTwoDiscountedProducts(Map<DiscountedItem, AtomicLong> allDiscountedProducts) {
+        return allDiscountedProducts.entrySet().stream()
+                .filter(entry -> DiscountedType.THREE_FOR_TWO == entry.getKey().getDiscountType())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }
