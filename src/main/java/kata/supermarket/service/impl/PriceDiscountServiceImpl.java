@@ -3,6 +3,7 @@ package kata.supermarket.service.impl;
 import kata.supermarket.BaseProduct;
 import kata.supermarket.Basket;
 import kata.supermarket.Item;
+import kata.supermarket.discount.DiscountedItem;
 import kata.supermarket.service.PriceDiscountService;
 import kata.supermarket.strategy.ThreeForTwoDiscountStrategy;
 import kata.supermarket.strategy.TwoForOneDiscountStrategy;
@@ -25,7 +26,7 @@ public class PriceDiscountServiceImpl implements PriceDiscountService {
     public BigDecimal calculateDiscount() {
         BigDecimal totalDiscount = BigDecimal.ZERO;
 
-        Map<BaseProduct, AtomicLong> discountedProducts = getDiscountedProductsWithCount();
+        Map<DiscountedItem, AtomicLong> discountedProducts = getDiscountedProductsWithCount();
 
         BigDecimal twoForOneDiscount = new TwoForOneDiscountStrategy().execute(discountedProducts);
         BigDecimal threeForTwoDiscount = new ThreeForTwoDiscountStrategy().execute(discountedProducts);
@@ -35,13 +36,13 @@ public class PriceDiscountServiceImpl implements PriceDiscountService {
 
     }
 
-    private Map<BaseProduct, AtomicLong> getDiscountedProductsWithCount() {
-        Map<BaseProduct, AtomicLong> discountedProducts = new HashMap<>();
+    private Map<DiscountedItem, AtomicLong> getDiscountedProductsWithCount() {
+        Map<DiscountedItem, AtomicLong> discountedProducts = new HashMap<>();
         basket.items().stream()
                 .filter(Item::isDisCountApplicable)
                 .forEach(item -> {
-                    discountedProducts.putIfAbsent(item.product(), new AtomicLong(0l));
-                    discountedProducts.get(item.product()).incrementAndGet();
+                    discountedProducts.putIfAbsent((DiscountedItem) item, new AtomicLong(0l));
+                    discountedProducts.get((DiscountedItem) item).incrementAndGet();
                 });
         return discountedProducts;
     }
