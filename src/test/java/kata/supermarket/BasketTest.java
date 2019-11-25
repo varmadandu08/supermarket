@@ -34,25 +34,7 @@ class BasketTest {
         );
     }
 
-    @DisplayName("basket provides count of products correctly when containing...")
-    @Test
-    void basketProvidesCorrectItemsCount() {
-        final Basket basket = new Basket();
-
-
-        WeighedProduct sweets = aKiloOfAmericanSweets();
-        basket.add(sweets.weighing(new BigDecimal(".25")));
-        basket.add(sweets.weighing(new BigDecimal(".50")));
-        basket.add(sweets.weighing(new BigDecimal("1.00")));
-
-        WeighedProduct pickAndMix = aKiloOfPickAndMix();
-        basket.add(pickAndMix.weighing(new BigDecimal(".50")));
-
-        assertEquals(1l, basket.itemsCount().get(pickAndMix).get());
-        assertEquals(3l, basket.itemsCount().get(sweets).get());
-    }
-
-        private static Arguments aSingleItemPricedByWeight() {
+    private static Arguments aSingleItemPricedByWeight() {
             return Arguments.of("a single weighed item", 1, Collections.singleton(twoFiftyGramsOfAmericanSweets()));
     }
 
