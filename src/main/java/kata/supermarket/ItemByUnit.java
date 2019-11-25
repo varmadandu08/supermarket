@@ -18,4 +18,5 @@ public class ItemByUnit extends GenericItem {
     public BaseProduct product() {
         return product;
     }
+
 }

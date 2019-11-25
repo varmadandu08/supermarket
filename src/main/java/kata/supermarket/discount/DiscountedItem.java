@@ -18,6 +18,21 @@ public abstract class DiscountedItem implements Item {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DiscountedItem that = (DiscountedItem) o;
+
+        return item != null ? item.product().equals(that.item.product()) : that.item == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return item != null ? item.product().hashCode() : 0;
+    }
+
+    @Override
     public BaseProduct product() {
         return item.product();
     }

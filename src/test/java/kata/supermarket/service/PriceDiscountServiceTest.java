@@ -1,6 +1,7 @@
 package kata.supermarket.service;
 
 import kata.supermarket.*;
+import kata.supermarket.discount.TwoForOneDiscountedItemByUnit;
 import kata.supermarket.service.impl.PriceDiscountServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -31,7 +32,10 @@ class PriceDiscountServiceTest {
                 aSingleItemPricedPerUnit(),
                 multipleItemsPricedPerUnit(),
                 aSingleItemPricedByWeight(),
-                multipleItemsPricedByWeight()
+                multipleItemsPricedByWeight(),
+                aSingleItemPricedPerUnit_With_TwoForOneDiscount(),
+                multipleItemsPricedPerUnit_With_2_individual_TwoForOneDiscount(),
+                multipleItemsPricedPerUnit_With_2_pairs_of_TwoForOneDiscount()
         );
     }
 
@@ -50,24 +54,47 @@ class PriceDiscountServiceTest {
                 Arrays.asList(aPackOfDigestives(), aPintOfMilk()));
     }
 
+    private static Arguments multipleItemsPricedPerUnit_With_2_individual_TwoForOneDiscount() {
+        return Arguments.of("multiple items priced per unit", "0.00",
+                Arrays.asList(new TwoForOneDiscountedItemByUnit(aPackOfDigestivesProduct()), new TwoForOneDiscountedItemByUnit(aPintOfMilkProduct())));
+    }
+
+    private static Arguments multipleItemsPricedPerUnit_With_2_pairs_of_TwoForOneDiscount() {
+        return Arguments.of("multiple items priced per unit", "3.00",
+                Arrays.asList(new TwoForOneDiscountedItemByUnit(aPackOfDigestivesProduct()), new TwoForOneDiscountedItemByUnit(aPackOfDigestivesProduct())
+                                , new TwoForOneDiscountedItemByUnit(aPintOfMilkProduct()), new TwoForOneDiscountedItemByUnit(aPintOfMilkProduct())));
+    }
+
     private static Arguments aSingleItemPricedPerUnit() {
         return Arguments.of("a single item priced per unit", "0.00", Collections.singleton(aPintOfMilk()));
+    }
+
+    private static Arguments aSingleItemPricedPerUnit_With_TwoForOneDiscount() {
+        return Arguments.of("a single item priced per unit with 2 for 1 discount", "0.00", Collections.singleton(new TwoForOneDiscountedItemByUnit(aPintOfMilkProduct())));
     }
 
     private static Arguments noItems() {
         return Arguments.of("no items", "0.00", Collections.emptyList());
     }
 
+    private static Product aPintOfMilkProduct() {
+        return new Product(ProductType.MILK, new BigDecimal( "1.00"));
+    }
+
     private static Item aPintOfMilk() {
-        return new Product(ProductType.MILK, new BigDecimal( "0.49")).oneOf();
+        return aPintOfMilkProduct().oneOf();
+    }
+
+    private static Product aPackOfDigestivesProduct() {
+        return new Product(ProductType.DIGESTIVES, new BigDecimal("2.00"));
     }
 
     private static Item aPackOfDigestives() {
-        return new Product(ProductType.DIGESTIVES, new BigDecimal("1.55")).oneOf();
+        return aPackOfDigestivesProduct().oneOf();
     }
 
     private static WeighedProduct aKiloOfAmericanSweets() {
-        return new WeighedProduct(ProductType.SWEETS, new BigDecimal("4.99"));
+        return new WeighedProduct(ProductType.SWEETS, new BigDecimal("3.00"));
     }
 
     private static Item twoFiftyGramsOfAmericanSweets() {
@@ -75,7 +102,7 @@ class PriceDiscountServiceTest {
     }
 
     private static WeighedProduct aKiloOfPickAndMix() {
-        return new WeighedProduct(ProductType.PICKANDMIX, new BigDecimal("2.99"));
+        return new WeighedProduct(ProductType.PICKANDMIX, new BigDecimal("4.00"));
     }
 
     private static Item twoHundredGramsOfPickAndMix() {

@@ -5,7 +5,7 @@ import kata.supermarket.Product;
 
 public class ThreeForTwoDiscountedItemByUnit extends DiscountedItem {
 
-    ThreeForTwoDiscountedItemByUnit(final Product product) {
+    public ThreeForTwoDiscountedItemByUnit(final Product product) {
         super(new ItemByUnit(product));
     }
 
