@@ -18,6 +18,6 @@ public class PriceDiscountServiceImpl implements PriceDiscountService {
 
     @Override
     public BigDecimal calculateDiscount() {
-        return BigDecimal.ZERO;
+        return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
     }
 }
