@@ -10,7 +10,7 @@ public class TwoForOneDiscountedItemByUnit extends DiscountedItem {
     }
 
     @Override
-    DiscountType getDiscountType() {
-        return DiscountType.TWO_FOR_ONE;
+    DiscountedType getDiscountType() {
+        return DiscountedType.TWO_FOR_ONE;
     }
 }
