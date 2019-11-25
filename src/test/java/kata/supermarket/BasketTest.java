@@ -14,13 +14,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BasketTest {
 
-    @DisplayName("basket provides its total value when containing...")
+    @DisplayName("basket provides its items correctly when containing...")
     @MethodSource
     @ParameterizedTest(name = "{0}")
-    void basketProvidesTotalValue(String description, String expectedTotal, Iterable<Item> items) {
+    void basketProvidesTotalValue(String description, int numberOfItems, Iterable<Item> items) {
         final Basket basket = new Basket();
         items.forEach(basket::add);
-        assertEquals(new BigDecimal(expectedTotal), basket.total());
+        assertEquals(numberOfItems, basket.items().size());
     }
 
     static Stream<Arguments> basketProvidesTotalValue() {
@@ -34,26 +34,26 @@ class BasketTest {
     }
 
     private static Arguments aSingleItemPricedByWeight() {
-        return Arguments.of("a single weighed item", "1.25", Collections.singleton(twoFiftyGramsOfAmericanSweets()));
+        return Arguments.of("a single weighed item", 1, Collections.singleton(twoFiftyGramsOfAmericanSweets()));
     }
 
     private static Arguments multipleItemsPricedByWeight() {
-        return Arguments.of("multiple weighed items", "1.85",
+        return Arguments.of("multiple weighed items", 2,
                 Arrays.asList(twoFiftyGramsOfAmericanSweets(), twoHundredGramsOfPickAndMix())
         );
     }
 
     private static Arguments multipleItemsPricedPerUnit() {
-        return Arguments.of("multiple items priced per unit", "2.04",
+        return Arguments.of("multiple items priced per unit", 2,
                 Arrays.asList(aPackOfDigestives(), aPintOfMilk()));
     }
 
     private static Arguments aSingleItemPricedPerUnit() {
-        return Arguments.of("a single item priced per unit", "0.49", Collections.singleton(aPintOfMilk()));
+        return Arguments.of("a single item priced per unit", 1, Collections.singleton(aPintOfMilk()));
     }
 
     private static Arguments noItems() {
-        return Arguments.of("no items", "0.00", Collections.emptyList());
+        return Arguments.of("no items", 0, Collections.emptyList());
     }
 
     private static Item aPintOfMilk() {
