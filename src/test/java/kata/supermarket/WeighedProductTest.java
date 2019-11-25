@@ -33,7 +33,7 @@ class WeighedProductTest {
 
     @Test
     @DisplayName("check for equality of weighted products when type is same, even though price is different")
-    void testEquality_same_product_type() {
+    void testEquality_same_weighted_product_type() {
         WeighedProduct product1 = new WeighedProduct(ProductType.SWEETS, new BigDecimal(1.00));
         WeighedProduct product2 = new WeighedProduct(ProductType.SWEETS, new BigDecimal(2.00));
         assertEquals(product1, product2);
@@ -41,7 +41,7 @@ class WeighedProductTest {
 
     @Test
     @DisplayName("check to make sure two weighted products NOT equal when their types are different")
-    void testEquality_diff_product_type() {
+    void testEquality_diff_weighted_product_type() {
         WeighedProduct product1 = new WeighedProduct(ProductType.SWEETS, new BigDecimal(1.00));
         WeighedProduct product2 = new WeighedProduct(ProductType.PICKANDMIX, new BigDecimal(1.00));
         assertNotEquals(product1, product2);
