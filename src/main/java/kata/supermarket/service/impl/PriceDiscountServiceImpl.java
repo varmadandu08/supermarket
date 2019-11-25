@@ -1,8 +1,6 @@
 package kata.supermarket.service.impl;
 
 import kata.supermarket.Basket;
-import kata.supermarket.Item;
-import kata.supermarket.service.PriceCalculationService;
 import kata.supermarket.service.PriceDiscountService;
 
 import java.math.BigDecimal;
