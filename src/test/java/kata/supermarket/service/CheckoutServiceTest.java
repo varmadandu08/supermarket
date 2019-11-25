@@ -35,11 +35,11 @@ class CheckoutServiceTest {
 
                 aSingleItemPricedPerUnit_With_TwoForOneDiscount(new BigDecimal("1.00")),
                 multipleItemsPricedPerUnit_With_2_individual_TwoForOneDiscount(new BigDecimal("3.00")),
-                multipleItemsPricedPerUnit_With_2_pairs_of_TwoForOneDiscount(new BigDecimal("3.00")), // 1.00 for Milk discount and 2.00 for digestives
+                multipleItemsPricedPerUnit_With_2_pairs_of_TwoForOneDiscount(new BigDecimal("3.00")), // 1.00 discount for Milk discount and 2.00 discount for digestives
 
                 aSingleItemPricedPerUnit_With_ThreeForTwoDiscount(new BigDecimal("1.00")),
-                multipleItemsPricedPerUnit_having_3_same_products_with_ThreeForTwoDiscount(new BigDecimal("3.00")),
-                multipleItemsPricedPerUnit_having_4_same_products_with_ThreeForTwoDiscount(new BigDecimal("4.00"))
+                multipleItemsPricedPerUnit_having_3_same_products_with_ThreeForTwoDiscount(new BigDecimal("2.00")), //Total cost: 3.00 and discount: 1.00
+                multipleItemsPricedPerUnit_having_4_same_products_with_ThreeForTwoDiscount(new BigDecimal("2.00"))
 
         );
     }

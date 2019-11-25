@@ -31,14 +31,14 @@ public class TestFixtures {
 
     public static Arguments multipleItemsPricedPerUnit_having_3_same_products_with_ThreeForTwoDiscount(BigDecimal expectedValue) {
         return Arguments.of("multiple items priced per unit - 3 same products having 3 for 2 discount", expectedValue,
-                Arrays.asList(new ThreeForTwoDiscountedItemByUnit(aPackOfDigestivesProduct())
+                Arrays.asList(new ThreeForTwoDiscountedItemByUnit(aPintOfMilkProduct())
                         , new ThreeForTwoDiscountedItemByUnit(aPintOfMilkProduct())
                         , new ThreeForTwoDiscountedItemByUnit(aPintOfMilkProduct())));
     }
 
     public static Arguments multipleItemsPricedPerUnit_having_4_same_products_with_ThreeForTwoDiscount(BigDecimal expectedValue) {
         return Arguments.of("multiple items priced per unit - 4 same products with 3 for 2 discount", expectedValue,
-                Arrays.asList(new ThreeForTwoDiscountedItemByUnit(aPackOfDigestivesProduct())
+                Arrays.asList(new ThreeForTwoDiscountedItemByUnit(aPintOfMilkProduct())
                         , new ThreeForTwoDiscountedItemByUnit(aPintOfMilkProduct())
                         , new ThreeForTwoDiscountedItemByUnit(aPintOfMilkProduct())
                         , new ThreeForTwoDiscountedItemByUnit(aPintOfMilkProduct())));
